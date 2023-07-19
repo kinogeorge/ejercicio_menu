@@ -10,17 +10,35 @@ namespace ejercicio_claseauto
 {
     class Program
     {
+
+        //***Ejercicio 2 (Restaurante)***
+        //--Hacer un menu de restaurante(Desayuno, comida y cena). Hecho
+        //--Hacer pedidos a los comensales sin saber cuantos son. Falta
+        //--Ordenar conforme al menu que ya se hizo prebiamente. Falta checar bien las horas
+        //--Al finalizar mostrar que pidio cada uno de los comensales. Falta
+
+        //Reglas de negocio.
+        //--Ningun comensal puede pedir si no es la hora correcta. Checar validaciones
+        //Ejemplo
+        //Desayuno 8 - 11 am
+        //Comida 12 - 5 pm
+        //Cena 6 - 10 pm
+        //La fecha se debe de calcular conforme a la hora del dia actual.
+
+        //Si son las 12 no puede pedir desayuno.
         static void Main(string[] args)
         {
             List<string> orden = new List<string>();
             List<int> numeroorden = new List<int>();
 
+            //porque usas un DateTimeOffset? Para que es? y para que sirve?
             DateTimeOffset horadesayunos = new DateTimeOffset(2023, 1, 1, 8, 1, 0, TimeSpan.FromHours(-8));
             DateTimeOffset horadecomida = new DateTimeOffset(2023, 1, 1, 12, 1, 0, TimeSpan.FromHours(-8));
             DateTimeOffset horacena = new DateTimeOffset(2023, 1, 1, 18, 0, 0, TimeSpan.FromHours(-8));
             DateTimeOffset horacierre = new DateTimeOffset(2023, 1, 1, 23, 30, 0, TimeSpan.FromHours(-8));
             DateTimeOffset horaapertura = new DateTimeOffset(2023, 1, 1, 8, 0, 0, TimeSpan.FromHours(8));
 
+            //Arreglos estan correctos, pero al momento de pedir como los identificas?
             string[] menudesayuno =
            {
                 "Hot cakes", "huevos con chorizo", "chilaquiles rojos", "chilaquiles verdes", "huevos revueltos", "huevos a la mexicana", "platanos fritos", "chocomilk", "licuado de platano", "cafe"
@@ -45,6 +63,8 @@ namespace ejercicio_claseauto
             int[] precioscena =
                 { 88, 45, 80, 125};
 
+            //Validar bien las horas ya que haciendo la prueba me deja entrar a desayuno y cena.
+            
             if (horadesayunos > horaapertura || horadesayunos < horadecomida)
             {
                 Console.WriteLine("este es nuestro menú de desayunos");
