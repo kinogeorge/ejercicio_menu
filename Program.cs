@@ -12,7 +12,6 @@ namespace ejercicio_claseauto
     {
 
         //***Ejercicio 2 (Restaurante)***
-        //Prueba git
         //--Hacer un menu de restaurante(Desayuno, comida y cena). Hecho
         //--Hacer pedidos a los comensales sin saber cuantos son. Falta
         //--Ordenar conforme al menu que ya se hizo prebiamente. Falta checar bien las horas
