@@ -12,7 +12,6 @@ namespace ejercicio_claseauto
     {
 
         //***Ejercicio 2 (Restaurante)***
-        //Prueba GIT
         //--Hacer un menu de restaurante(Desayuno, comida y cena). Hecho
         //--Hacer pedidos a los comensales sin saber cuantos son. Falta
         //--Ordenar conforme al menu que ya se hizo prebiamente. Falta checar bien las horas
@@ -32,14 +31,18 @@ namespace ejercicio_claseauto
             List<string> orden = new List<string>();
             List<int> numeroorden = new List<int>();
 
-            //porque usas un DateTimeOffset? Para que es? y para que sirve?
-            DateTimeOffset horadesayunos = new DateTimeOffset(2023, 1, 1, 8, 1, 0, TimeSpan.FromHours(-8));
-            DateTimeOffset horadecomida = new DateTimeOffset(2023, 1, 1, 12, 1, 0, TimeSpan.FromHours(-8));
-            DateTimeOffset horacena = new DateTimeOffset(2023, 1, 1, 18, 0, 0, TimeSpan.FromHours(-8));
-            DateTimeOffset horacierre = new DateTimeOffset(2023, 1, 1, 23, 30, 0, TimeSpan.FromHours(-8));
-            DateTimeOffset horaapertura = new DateTimeOffset(2023, 1, 1, 8, 0, 0, TimeSpan.FromHours(8));
+            //DateTimeOffset horadesayunos = new DateTimeOffset(2023, 1, 1, 8, 1, 0, TimeSpan.FromHours(-8));
+            //DateTimeOffset horadecomida = new DateTimeOffset(2023, 1, 1, 12, 1, 0, TimeSpan.FromHours(-8));
+            //DateTimeOffset horacena = new DateTimeOffset(2023, 1, 1, 18, 0, 0, TimeSpan.FromHours(-8));
+            //DateTimeOffset horacierre = new DateTimeOffset(2023, 1, 1, 23, 30, 0, TimeSpan.FromHours(-8));
+            //DateTimeOffset horaapertura = new DateTimeOffset(2023, 1, 1, 8, 0, 0, TimeSpan.FromHours(8));
+            DateTime horariodesayuno = DateTime.Today.AddHours(8);
+            DateTime horariocomida = DateTime.Today.AddHours(12);
+            DateTime horariocena = DateTime.Today.AddHours(18);
+            DateTime horariodeapertura = DateTime.Today.AddHours(7);
+            DateTime horariocierre = DateTime.Today.AddHours(23);
+            DateTime hora = DateTime.Now;
 
-            //Arreglos estan correctos, pero al momento de pedir como los identificas?
             string[] menudesayuno =
            {
                 "Hot cakes", "huevos con chorizo", "chilaquiles rojos", "chilaquiles verdes", "huevos revueltos", "huevos a la mexicana", "platanos fritos", "chocomilk", "licuado de platano", "cafe"
@@ -48,15 +51,15 @@ namespace ejercicio_claseauto
             int[] preciosdesayuno =
                 { 80, 95, 85, 85, 90, 105, 80, 30, 25, 15};
 
-            string[] menucomida =
+            var menucomida = new string[]
             {
-                "tacos de carne asada", "consome", "gorditas de cerdo", "carne asada", "tacos dorados", "empanadas de quesillo", "empanadas de qesillo con carne asada"
+                "tacos de carne asada", "consome", "gorditas de cerdo", "carne asada", "tacos dorados", "empanadas de quesillo", "empanadas de quesillo con carne asada"
             };
 
             int[] precioscomida =
                 {10, 35, 15, 85, 12, 10, 15};
 
-            string[] menucena =
+            var menucena = new string[]
             {
                 "hamburguesa", "quesadilla con carne asada", "pizza de peperoni", "alitas BBQ",
             };
@@ -64,9 +67,7 @@ namespace ejercicio_claseauto
             int[] precioscena =
                 { 88, 45, 80, 125};
 
-            //Validar bien las horas ya que haciendo la prueba me deja entrar a desayuno y cena.
-            
-            if (horadesayunos > horaapertura || horadesayunos < horadecomida)
+            if (horariodesayuno < horariodeapertura & horariodesayuno > horariocomida)
             {
                 Console.WriteLine("este es nuestro menú de desayunos");
                 for (int i = 0; i < menudesayuno.Length; i++)
@@ -74,65 +75,115 @@ namespace ejercicio_claseauto
                     Console.WriteLine("{0}.{1} - {2}", i + 1, menudesayuno[i], "$" + preciosdesayuno[i]);
                 }
 
-                Console.WriteLine("¿Que desea ordenar?");
-                orden.Add(Console.ReadLine());
+                if (horariocomida > horariodesayuno & horariocomida > horariocena)
+                {
+                    Console.WriteLine("Este es nuestro menú de comidas");
+                    for (int j = 0; j < menucomida.Length; j++)
+                    {
+                        Console.WriteLine("{0}.{1} - {2}", j + 1, menucomida[j], "$" + precioscomida[j]);
+                    }
 
+                    bool valor = true;
+                    while (valor == true)
+                    {
+                        Console.WriteLine("¿Que desea ordenar? Ingrese 'fin' para terminar su pedido");
+                        string validacion = Console.ReadLine();
+
+                        if (validacion == "fin")
+                        {
+                            valor = false;
+                        }
+                        else
+                        {
+                            int indice = Array.IndexOf(menucena, valor);
+                            if (indice != -1)
+                            {
+                                Console.WriteLine("¿Cuantos desea ordenar?");
+                                string cantidad = Console.ReadLine();
+                                int numero = int.Parse(cantidad);
+                                orden.Add(validacion);
+                                numeroorden.Add(precioscena[indice] * numero);
+                                Console.WriteLine("Ha agregado {0} {1} por un total de: {2}", numero, validacion, "$" + precioscena[indice] * numero);
+                            }
+                            else
+                            {
+                                Console.WriteLine("Has ingresado un platillo fuera del menú");
+                            }
+                        }
+                    }
+                    Console.Clear();
+                    Console.WriteLine("¿ES correcto su pedido?");
+                    for (int p = 0; p < orden.Count; p++)
+                    {
+                        Console.WriteLine("{0} - {1}", orden[p], "$", numeroorden[p]);
+                    }
+                }
             }
 
-            if (horadecomida < horadesayunos || horadecomida > horacena)
-            {
-                Console.WriteLine("Este es nuestro menú de comidas");
-                for (int j = 0; j < menucomida.Length; j++)
-                {
-                    Console.WriteLine("{0}.{1} - {2}", j + 1, menucomida[j], "$" + precioscomida[j]);
-                }
-
-                Console.WriteLine("¿Que desea ordenar?");
-                orden.Add(Console.ReadLine());
-
-                if (orden.Equals(menucomida))
-                {
-                    Console.WriteLine("¿cuantos desea ordenar?");
-                    numeroorden.Add(Convert.ToInt32(Console.ReadLine()));
-                }
-                else
-                {
-                    Console.WriteLine("Disculpa, agergaste un platillo fuera del menú");
-                }
-
-            }
-
-            if (horacena > horadecomida || horacena < horacierre)
+            if (horariocena > horariocomida & horariocena < horariocierre)
             {
                 Console.WriteLine("este es nuestro menú de cena");
                 for (int k = 0; k < menucena.Length; k++)
                 {
                     Console.WriteLine("{0}.{1} - {2}", k + 1, menucena[k], "$" + precioscena[k]);
                 }
-               
-                Console.WriteLine("¿Que desea ordenar?");
-                orden.Add(Console.ReadLine());
 
-                if (orden.Equals(menucena))
+                bool valor = true;
+                while (valor == true)
                 {
-                    Console.WriteLine("¿cuantos desea ordenar?");
-                    numeroorden.Add(Convert.ToInt32(Console.ReadLine()));
-                    Console.WriteLine("¿Es correcta su orden?:");
-                   
-                    foreach (string palabra in orden)
+                    Console.WriteLine("¿Que desea ordenar? Ingrese 'fin' para terminar su pedido");
+                    string validacion = Console.ReadLine().ToLower();
+
+                    if (validacion == "fin")
                     {
-                        Console.WriteLine(palabra);
+                        valor = false;
+                    }
+                    else
+                    {
+                        int indice = Array.FindIndex(menucena, q => q == validacion);
+                        if (indice != -1)
+                        {
+                            Console.WriteLine("¿Cuantos desea ordenar?");
+                            string cantidad = Console.ReadLine();
+                            int numero = int.Parse(cantidad);
+                            orden.Add(validacion);
+                            numeroorden.Add(precioscena[indice] * numero);
+                            Console.WriteLine("Ha agregado {0} {1} por un total de: {2}", numero, validacion, "$" + precioscena[indice] * numero);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Has ingresado un platillo fuera del menú");
+                        }
+                    }
+                }
+                Console.Clear();
+
+                Console.WriteLine("¿Desea pagar en efectivo o con tarjeta?");
+                string forma = Console.ReadLine();
+
+                if (forma.Equals("tarjeta"))
+                {
+                    Console.WriteLine("introduce el numero de tarjeta");
+                    int numero_cuenta = Convert.ToInt32(Console.ReadLine());
+                    for (int p = 0; p < orden.Count; p++)
+                    {
+                        Console.WriteLine("Tu cuenta {0} - {1}", orden[p], "$", numeroorden[p] + "ha sido pagado con:", numero_cuenta);
+                    }
+                }
+                else if (forma.Equals("efectivo"))
+                {
+                    for (int p = 0; p < orden.Count; p++)
+                    {
+                        Console.WriteLine("Tu cuenta {0} - {1}", orden[p], "$", numeroorden[p] + "ha sido pagado con efectivo");
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Disculpa, agregaste un platillo fuera del menú");
+                    Console.WriteLine("la forma de pago es incorrecta");
                 }
-
             }
 
             Console.ReadKey();
         }
-
     }
 }
