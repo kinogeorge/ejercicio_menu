@@ -13,9 +13,9 @@ namespace ejercicio_claseauto
 
         //***Ejercicio 2 (Restaurante)***
         //--Hacer un menu de restaurante(Desayuno, comida y cena). Hecho
-        //--Hacer pedidos a los comensales sin saber cuantos son. Falta
+        //--Hacer pedidos a los comensales sin saber cuantos son. Hecho
         //--Ordenar conforme al menu que ya se hizo prebiamente. Falta checar bien las horas
-        //--Al finalizar mostrar que pidio cada uno de los comensales. Falta
+        //--Al finalizar mostrar que pidio cada uno de los comensales. Medio punto
 
         //Reglas de negocio.
         //--Ningun comensal puede pedir si no es la hora correcta. Checar validaciones
@@ -164,10 +164,11 @@ namespace ejercicio_claseauto
                 if (forma.Equals("tarjeta"))
                 {
                     Console.WriteLine("introduce el numero de tarjeta");
-                    int numero_cuenta = Convert.ToInt32(Console.ReadLine());
+                    int numero_cuenta = Convert.ToInt32(Console.ReadLine());//cambia el int32 por Int64
                     for (int p = 0; p < orden.Count; p++)
                     {
-                        Console.WriteLine("Tu cuenta {0} - {1}", orden[p], "$", numeroorden[p] + "ha sido pagado con:", numero_cuenta);
+                        //Console.WriteLine("Tu cuenta {0} - $ {1}ha sido pagado con: {3}", orden[p], numeroorden[p], numero_cuenta);
+                        Console.WriteLine("Tu cuenta "+ orden[p] + " - $ "+ numeroorden[p] + " ha sido pagado con: "+ numero_cuenta +"");//Cambialo por esto.
                     }
                 }
                 else if (forma.Equals("efectivo"))
