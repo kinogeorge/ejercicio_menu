@@ -10,7 +10,7 @@ namespace ejercicio_claseauto
 {
     class Program
     {
-
+        //ajustes
         //***Ejercicio 2 (Restaurante)***
         //--Hacer un menu de restaurante(Desayuno, comida y cena). Hecho
         //--Hacer pedidos a los comensales sin saber cuantos son. Hecho
