@@ -41,7 +41,7 @@ namespace ejercicio_claseauto
             DateTime horariocena = DateTime.Today.AddHours(18);
             DateTime horariodeapertura = DateTime.Today.AddHours(7);
             DateTime horariocierre = DateTime.Today.AddHours(23);
-            DateTime hora = DateTime.Now;
+            int hora = DateTime.Now.Hour;
 
             string[] menudesayuno =
            {
@@ -67,7 +67,7 @@ namespace ejercicio_claseauto
             int[] precioscena =
                 { 88, 45, 80, 125};
 
-            if (horariodesayuno < horariodeapertura & horariodesayuno > horariocomida)
+            if (hora >= 8 && hora < 12)
             {
                 Console.WriteLine("este es nuestro menú de desayunos");
                 for (int i = 0; i < menudesayuno.Length; i++)
@@ -75,7 +75,63 @@ namespace ejercicio_claseauto
                     Console.WriteLine("{0}.{1} - {2}", i + 1, menudesayuno[i], "$" + preciosdesayuno[i]);
                 }
 
-                if (horariocomida > horariodesayuno & horariocomida > horariocena)
+                bool valor = true;
+                while (valor == true)
+                {
+                    Console.WriteLine("¿Que desea ordenar? Ingrese 'fin' para terminar su pedido");
+                    string validacion = Console.ReadLine().ToLower();
+
+                    if (validacion == "fin")
+                    {
+                        valor = false;
+                    }
+                    else
+                    {
+                        int indice = Array.FindIndex(menudesayuno, q => q == validacion);
+                        if (indice != -1)
+                        {
+                            Console.WriteLine("¿Cuantos desea ordenar?");
+                            string cantidad = Console.ReadLine();
+                            int numero = int.Parse(cantidad);
+                            orden.Add(validacion);
+                            numeroorden.Add(preciosdesayuno[indice] * numero);
+                            Console.WriteLine("Ha agregado {0} {1} por un total de: {2}", numero, validacion, "$" + preciosdesayuno[indice] * numero);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Has ingresado un platillo fuera del menú");
+                        }
+                    }
+                }
+                Console.Clear();
+
+                Console.WriteLine("¿Desea pagar en efectivo o con tarjeta?");
+                string forma = Console.ReadLine();
+
+                if (forma.Equals("tarjeta"))
+                {
+                    Console.WriteLine("introduce el numero de tarjeta");
+                    int numero_cuenta = (int)Convert.ToInt64(Console.ReadLine());
+                    for (int p = 0; p < orden.Count; p++)
+                    {
+                        Console.WriteLine("Tu cuenta {0} - $ {1} ha sido pagado con: {3}", orden[p],numeroorden[p], numero_cuenta);
+                    }
+                }
+                else if (forma.Equals("efectivo"))
+                {
+                    for (int p = 0; p < orden.Count; p++)
+                    {
+                        Console.WriteLine("Tu cuenta {0} - $ {1} ha sido pagado con efectivo", orden[p], numeroorden[p]);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("la forma de pago es incorrecta");
+                }
+            }
+
+
+                if (hora >= 12 && hora < 18)
                 {
                     Console.WriteLine("Este es nuestro menú de comidas");
                     for (int j = 0; j < menucomida.Length; j++)
@@ -95,15 +151,15 @@ namespace ejercicio_claseauto
                         }
                         else
                         {
-                            int indice = Array.IndexOf(menucena, valor);
+                            int indice = Array.IndexOf(menucomida, valor);
                             if (indice != -1)
                             {
                                 Console.WriteLine("¿Cuantos desea ordenar?");
                                 string cantidad = Console.ReadLine();
                                 int numero = int.Parse(cantidad);
                                 orden.Add(validacion);
-                                numeroorden.Add(precioscena[indice] * numero);
-                                Console.WriteLine("Ha agregado {0} {1} por un total de: {2}", numero, validacion, "$" + precioscena[indice] * numero);
+                                numeroorden.Add(precioscomida[indice] * numero);
+                                Console.WriteLine("Ha agregado {0} {1} por un total de: {2}", numero, validacion, "$" + precioscomida[indice] * numero);
                             }
                             else
                             {
@@ -111,16 +167,36 @@ namespace ejercicio_claseauto
                             }
                         }
                     }
+                    
                     Console.Clear();
-                    Console.WriteLine("¿ES correcto su pedido?");
-                    for (int p = 0; p < orden.Count; p++)
+
+                    Console.WriteLine("¿Desea pagar en efectivo o con tarjeta?");
+                    string forma = Console.ReadLine();
+
+                    if (forma.Equals("tarjeta"))
                     {
-                        Console.WriteLine("{0} - {1}", orden[p], "$", numeroorden[p]);
+                        Console.WriteLine("introduce el numero de tarjeta");
+                        int numero_cuenta = (int)Convert.ToInt64(Console.ReadLine());
+                        for (int p = 0; p < orden.Count; p++)
+                        {
+                            Console.WriteLine("Tu cuenta {0} - $ {1}ha sido pagado con: {3}", orden[p],numeroorden[p], numero_cuenta);
+                        }
+                    }
+                    else if (forma.Equals("efectivo"))
+                    {
+                        for (int p = 0; p < orden.Count; p++)
+                        {
+                            Console.WriteLine("Tu cuenta {0} - {1} $ ha sido pagado con efectivo", orden[p], numeroorden[p]);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("la forma de pago es incorrecta");
                     }
                 }
-            }
+            
 
-            if (horariocena > horariocomida & horariocena < horariocierre)
+            if (hora >= 18 && hora < 23)
             {
                 Console.WriteLine("este es nuestro menú de cena");
                 for (int k = 0; k < menucena.Length; k++)
@@ -164,18 +240,17 @@ namespace ejercicio_claseauto
                 if (forma.Equals("tarjeta"))
                 {
                     Console.WriteLine("introduce el numero de tarjeta");
-                    int numero_cuenta = Convert.ToInt32(Console.ReadLine());//cambia el int32 por Int64
+                    int numero_cuenta = (int)Convert.ToInt64(Console.ReadLine());
                     for (int p = 0; p < orden.Count; p++)
-                    {
-                        //Console.WriteLine("Tu cuenta {0} - $ {1}ha sido pagado con: {3}", orden[p], numeroorden[p], numero_cuenta);
-                        Console.WriteLine("Tu cuenta "+ orden[p] + " - $ "+ numeroorden[p] + " ha sido pagado con: "+ numero_cuenta +"");//Cambialo por esto.
+                    {    
+                        Console.WriteLine("Tu cuenta {0} - $ {1} ha sido pagado con: {2}", orden[p],numeroorden[p], numero_cuenta);
                     }
                 }
                 else if (forma.Equals("efectivo"))
                 {
                     for (int p = 0; p < orden.Count; p++)
                     {
-                        Console.WriteLine("Tu cuenta {0} - {1}", orden[p], "$", numeroorden[p] + "ha sido pagado con efectivo");
+                        Console.WriteLine("Tu cuenta {0} - {1} ha sido pagado con efectivo", orden[p], numeroorden[p]);
                     }
                 }
                 else
